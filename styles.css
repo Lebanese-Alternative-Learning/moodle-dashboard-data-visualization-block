@@ -1,0 +1,476 @@
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD DATA VISUALIZATION BLOCK — styles.css
+   ═══════════════════════════════════════════════════════════ */
+
+
+.chart-image {
+    height: auto !important;
+}
+
+/* ── Reset block container ──────────────────────────────── */
+.block-dashboard-viz .card-body {
+    padding: 0;
+    overflow: visible;
+}
+
+.block-dashboard-viz .block-cards {
+    padding: 0;
+}
+
+.ddv-dashboard {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #2d3748;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ── Welcome Header ─────────────────────────────────────── */
+.ddv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.ddv-welcome {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1a202c;
+}
+
+.ddv-welcome-sub {
+    color: #718096;
+    font-size: 0.92rem;
+    margin: 4px 0 0;
+}
+
+/* ── KPI Cards ──────────────────────────────────────────── */
+.ddv-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.ddv-kpi-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+    border: 1px solid #edf2f7;
+    transition: box-shadow .2s;
+    min-width: 0;
+}
+
+.ddv-kpi-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+}
+
+.ddv-kpi-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.ddv-kpi-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ddv-kpi-label {
+    font-size: .7rem;
+    color: #718096;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ddv-kpi-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #1a202c;
+}
+
+.ddv-kpi-value small {
+    font-size: .55em;
+    color: #a0aec0;
+    font-weight: 500;
+}
+
+.ddv-kpi-trend {
+    font-size: .7rem;
+    font-weight: 600;
+    margin-top: 3px;
+}
+
+.ddv-kpi-trend.up {
+    color: #38a169;
+}
+
+.ddv-kpi-trend.down {
+    color: #e53e3e;
+}
+
+.ddv-kpi-sub {
+    font-size: .7rem;
+    color: #a0aec0;
+    margin-top: 2px;
+}
+
+.ddv-streak-msg {
+    color: #38a169 !important;
+    font-weight: 600;
+}
+
+/* ── Cards (chart wrappers) ─────────────────────────────── */
+.ddv-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+    border: 1px solid #edf2f7;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ddv-card-title {
+    font-size: .95rem;
+    font-weight: 700;
+    margin: 0 0 2px;
+    color: #1a202c;
+}
+
+.ddv-card-sub {
+    font-size: .75rem;
+    color: #a0aec0;
+    margin: 0 0 10px;
+}
+
+/* ── Chart container — CRITICAL for proper fitting ──────── */
+.ddv-chart-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ddv-chart-wrap .chart-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+.ddv-chart-wrap .chart-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+.ddv-chart-wrap canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 250px !important;
+}
+
+/* ── Charts Row 1: 4-column grid ────────────────────────── */
+.ddv-charts-row-1 {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* ── Charts Row 2: 2 columns ────────────────────────────── */
+.ddv-charts-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* ── Bottom Row: 3 columns ──────────────────────────────── */
+.ddv-charts-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* ── Doughnut center overlay ────────────────────────────── */
+.ddv-doughnut-wrap {
+    position: relative;
+}
+
+.ddv-doughnut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ddv-doughnut-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: block;
+    color: #1a202c;
+}
+
+.ddv-doughnut-label {
+    font-size: .65rem;
+    color: #a0aec0;
+    display: block;
+}
+
+/* ── Legend ──────────────────────────────────────────────── */
+.ddv-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.ddv-legend-item {
+    font-size: .7rem;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ddv-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ── Improvement badge ──────────────────────────────────── */
+.ddv-improvement-badge {
+    display: inline-block;
+    background: #eaf7ec;
+    color: #38a169;
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-top: 8px;
+}
+
+/* ── Strengths & Weaknesses ─────────────────────────────── */
+.ddv-strengths-cols {
+    display: flex;
+    gap: 16px;
+}
+
+.ddv-strength-col {
+    flex: 1;
+    min-width: 0;
+}
+
+.ddv-strength-heading {
+    font-size: .8rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.ddv-strength-heading i {
+    margin-right: 4px;
+}
+
+.ddv-green {
+    color: #38a169;
+}
+
+.ddv-orange {
+    color: #dd6b20;
+}
+
+.ddv-sw-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ddv-sw-list li {
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+
+.ddv-sw-name {
+    font-size: .78rem;
+    font-weight: 600;
+    color: #2d3748;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.ddv-sw-grade {
+    font-size: .75rem;
+    color: #718096;
+    flex-shrink: 0;
+}
+
+.ddv-sw-bar {
+    width: 100%;
+    height: 5px;
+    background: #edf2f7;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ddv-sw-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .6s ease;
+}
+
+.ddv-green-bg {
+    background: #38a169;
+}
+
+.ddv-orange-bg {
+    background: #dd6b20;
+}
+
+/* ── Course Progress Table ──────────────────────────────── */
+.ddv-table-wrap {
+    overflow-x: auto;
+}
+
+.ddv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+}
+
+.ddv-table th {
+    text-align: left;
+    padding: 8px 8px;
+    color: #718096;
+    font-weight: 600;
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    border-bottom: 2px solid #edf2f7;
+    white-space: nowrap;
+}
+
+.ddv-table td {
+    padding: 8px;
+    border-bottom: 1px solid #f7fafc;
+    vertical-align: middle;
+}
+
+.ddv-course-name {
+    font-weight: 600;
+    color: #2d3748;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ddv-progress-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.ddv-pbar {
+    width: 60px;
+    height: 6px;
+    background: #edf2f7;
+    border-radius: 3px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ddv-pbar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4e73df, #36b9cc);
+    border-radius: 3px;
+    transition: width .6s ease;
+}
+
+.ddv-table .badge {
+    font-size: .68rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1200px) {
+    .ddv-charts-row-1 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ddv-charts-row-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .ddv-kpi-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ddv-charts-row-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .ddv-kpi-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ddv-charts-row-1 {
+        grid-template-columns: 1fr;
+    }
+
+    .ddv-charts-row-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .ddv-strengths-cols {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .ddv-kpi-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Hide default Moodle chart table toggles (cleaner look) */
+.ddv-dashboard .chart-table {
+    display: none;
+}

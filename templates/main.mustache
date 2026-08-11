@@ -1,0 +1,212 @@
+{{!
+    Dashboard Data Visualization — main template
+}}
+<div class="ddv-dashboard">
+    {{! ── WELCOME HEADER ── }}
+    <div class="ddv-header">
+        <div>
+            <h2 class="ddv-welcome">{{#str}}welcome, block_dashboard_data_visualization, {{username}}{{/str}}</h2>
+            <p class="ddv-welcome-sub">{{#str}}welcome_sub, block_dashboard_data_visualization{{/str}}</p>
+        </div>
+    </div>
+
+    {{! ── KPI CARDS ROW ── }}
+    <div class="ddv-kpi-row">
+        {{#show_kpi_engagement}}
+        <div class="ddv-kpi-card ddv-kpi-engagement">
+            <div class="ddv-kpi-icon" style="background:#eef2ff;color:#4e73df;"><i class="fa fa-bolt"></i></div>
+            <div class="ddv-kpi-body">
+                <span class="ddv-kpi-label">{{#str}}engagement_score, block_dashboard_data_visualization{{/str}}</span>
+                <span class="ddv-kpi-value">{{engagement}}<small>/100</small></span>
+                {{#improvement}}<span class="ddv-kpi-trend up">&#9650; {{improvement}}% {{#str}}vs_last_month, block_dashboard_data_visualization{{/str}}</span>{{/improvement}}
+            </div>
+        </div>
+        {{/show_kpi_engagement}}
+        {{#show_kpi_grade}}
+        <div class="ddv-kpi-card ddv-kpi-grade">
+            <div class="ddv-kpi-icon" style="background:#eafbf0;color:#1cc88a;"><i class="fa fa-star"></i></div>
+            <div class="ddv-kpi-body">
+                <span class="ddv-kpi-label">{{#str}}average_grade, block_dashboard_data_visualization{{/str}}</span>
+                <span class="ddv-kpi-value">{{avggrade}}</span>
+            </div>
+        </div>
+        {{/show_kpi_grade}}
+        {{#show_kpi_completed}}
+        <div class="ddv-kpi-card ddv-kpi-completed">
+            <div class="ddv-kpi-icon" style="background:#fff8e5;color:#f6c23e;"><i class="fa fa-graduation-cap"></i></div>
+            <div class="ddv-kpi-body">
+                <span class="ddv-kpi-label">{{#str}}courses_completed, block_dashboard_data_visualization{{/str}}</span>
+                <span class="ddv-kpi-value">{{completed}} <small>/ {{total_enrolled}}</small></span>
+                <span class="ddv-kpi-sub">{{completionrate}}% completion rate</span>
+            </div>
+        </div>
+        {{/show_kpi_completed}}
+        {{#show_kpi_sessions}}
+        <div class="ddv-kpi-card ddv-kpi-sessions">
+            <div class="ddv-kpi-icon" style="background:#feecec;color:#e74a3b;"><i class="fa fa-clock-o"></i></div>
+            <div class="ddv-kpi-body">
+                <span class="ddv-kpi-label">{{#str}}study_sessions, block_dashboard_data_visualization{{/str}}</span>
+                <span class="ddv-kpi-value">{{sessions}}</span>
+            </div>
+        </div>
+        {{/show_kpi_sessions}}
+        {{#show_kpi_streak}}
+        <div class="ddv-kpi-card ddv-kpi-streak">
+            <div class="ddv-kpi-icon" style="background:#fff0f6;color:#e83e8c;"><i class="fa fa-fire"></i></div>
+            <div class="ddv-kpi-body">
+                <span class="ddv-kpi-label">{{#str}}learning_streak, block_dashboard_data_visualization{{/str}}</span>
+                <span class="ddv-kpi-value">{{streak}} <small>{{#str}}days, block_dashboard_data_visualization{{/str}}</small></span>
+                <span class="ddv-kpi-sub ddv-streak-msg">{{#str}}keep_it_up, block_dashboard_data_visualization{{/str}}</span>
+            </div>
+        </div>
+        {{/show_kpi_streak}}
+    </div>
+
+    {{! ── CHARTS ROW 1 ── }}
+    <div class="ddv-charts-row ddv-charts-row-1">
+        {{#show_engagement_over_time}}
+        <div class="ddv-card ddv-card-engagement-chart">
+            <h3 class="ddv-card-title">{{#str}}engagement_over_time, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}engagement_over_time_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap">{{{engagement_chart}}}</div>
+            {{#improvement}}<span class="ddv-improvement-badge">&#9650; {{improvement}}% improvement</span>{{/improvement}}
+        </div>
+        {{/show_engagement_over_time}}
+        {{#show_completed_by_subject}}
+        <div class="ddv-card ddv-card-completed-chart">
+            <h3 class="ddv-card-title">{{#str}}completed_by_subject, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}completed_by_subject_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap">{{{completed_chart}}}</div>
+        </div>
+        {{/show_completed_by_subject}}
+        {{#show_in_progress_by_subject}}
+        <div class="ddv-card ddv-card-inprogress-chart">
+            <h3 class="ddv-card-title">{{#str}}in_progress_by_subject, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}in_progress_by_subject_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap">{{{inprogress_chart}}}</div>
+        </div>
+        {{/show_in_progress_by_subject}}
+        {{#show_actions_breakdown}}
+        <div class="ddv-card ddv-card-actions-chart">
+            <h3 class="ddv-card-title">{{#str}}actions_breakdown, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}actions_breakdown_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap ddv-doughnut-wrap">
+                <div class="ddv-doughnut-center">
+                    <span class="ddv-doughnut-value">{{totalactions}}</span>
+                    <span class="ddv-doughnut-label">{{#str}}total_actions, block_dashboard_data_visualization{{/str}}</span>
+                </div>
+                {{{actions_chart}}}
+            </div>
+            <div class="ddv-legend">
+                <span class="ddv-legend-item"><span class="ddv-dot" style="background:#4e73df;"></span> {{#str}}action_learning, block_dashboard_data_visualization{{/str}} {{pct_learning}}%</span>
+                <span class="ddv-legend-item"><span class="ddv-dot" style="background:#1cc88a;"></span> {{#str}}action_viewed, block_dashboard_data_visualization{{/str}} {{pct_viewed}}%</span>
+                <span class="ddv-legend-item"><span class="ddv-dot" style="background:#f6c23e;"></span> {{#str}}action_assessments, block_dashboard_data_visualization{{/str}} {{pct_assessments}}%</span>
+                <span class="ddv-legend-item"><span class="ddv-dot" style="background:#858796;"></span> {{#str}}action_other, block_dashboard_data_visualization{{/str}} {{pct_other}}%</span>
+            </div>
+        </div>
+        {{/show_actions_breakdown}}
+    </div>
+
+    {{! ── CHARTS ROW 2 ── }}
+    <div class="ddv-charts-row ddv-charts-row-2">
+        {{#show_study_consistency}}
+        <div class="ddv-card ddv-card-consistency">
+            <h3 class="ddv-card-title">{{#str}}study_consistency, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}study_consistency_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap">{{{consistency_chart}}}</div>
+        </div>
+        {{/show_study_consistency}}
+        {{#show_top_subjects}}
+        <div class="ddv-card ddv-card-topsubjects">
+            <h3 class="ddv-card-title">{{#str}}top_subjects, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}top_subjects_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap">{{{topsubjects_chart}}}</div>
+        </div>
+        {{/show_top_subjects}}
+    </div>
+
+    {{! ── BOTTOM ROW ── }}
+    <div class="ddv-charts-row ddv-charts-row-3">
+        {{#show_performance_by_subject}}
+        <div class="ddv-card ddv-card-performance">
+            <h3 class="ddv-card-title">{{#str}}performance_by_subject, block_dashboard_data_visualization{{/str}}</h3>
+            <p class="ddv-card-sub">{{#str}}performance_by_subject_sub, block_dashboard_data_visualization{{/str}}</p>
+            <div class="ddv-chart-wrap">{{{performance_chart}}}</div>
+        </div>
+        {{/show_performance_by_subject}}
+        {{#show_strengths}}
+        <div class="ddv-card ddv-card-strengths">
+            <h3 class="ddv-card-title">{{#str}}strengths_areas, block_dashboard_data_visualization{{/str}}</h3>
+            <div class="ddv-strengths-cols">
+                <div class="ddv-strength-col">
+                    <h4 class="ddv-strength-heading ddv-green"><i class="fa fa-check-circle"></i> {{#str}}your_strengths, block_dashboard_data_visualization{{/str}}</h4>
+                    {{#has_strengths}}
+                    <ul class="ddv-sw-list">
+                        {{#strengths}}
+                        <li>
+                            <span class="ddv-sw-name">{{name}}</span>
+                            <span class="ddv-sw-grade">{{grade}}%</span>
+                            <div class="ddv-sw-bar"><div class="ddv-sw-fill ddv-green-bg" style="width:{{grade}}%;"></div></div>
+                        </li>
+                        {{/strengths}}
+                    </ul>
+                    {{/has_strengths}}
+                </div>
+                <div class="ddv-strength-col">
+                    <h4 class="ddv-strength-heading ddv-orange"><i class="fa fa-exclamation-circle"></i> {{#str}}focus_more_on, block_dashboard_data_visualization{{/str}}</h4>
+                    {{#has_weaknesses}}
+                    <ul class="ddv-sw-list">
+                        {{#weaknesses}}
+                        <li>
+                            <span class="ddv-sw-name">{{name}}</span>
+                            <span class="ddv-sw-grade">{{grade}}%</span>
+                            <div class="ddv-sw-bar"><div class="ddv-sw-fill ddv-orange-bg" style="width:{{grade}}%;"></div></div>
+                        </li>
+                        {{/weaknesses}}
+                    </ul>
+                    {{/has_weaknesses}}
+                </div>
+            </div>
+        </div>
+        {{/show_strengths}}
+        {{#show_course_progress}}
+        <div class="ddv-card ddv-card-coursetable">
+            <h3 class="ddv-card-title">{{#str}}course_progress, block_dashboard_data_visualization{{/str}}</h3>
+            {{#has_courses}}
+            <div class="ddv-table-wrap">
+                <table class="ddv-table">
+                    <thead>
+                        <tr>
+                            <th>{{#str}}course, block_dashboard_data_visualization{{/str}}</th>
+                            <th>{{#str}}progress, block_dashboard_data_visualization{{/str}}</th>
+                            <th>{{#str}}avg_grade, block_dashboard_data_visualization{{/str}}</th>
+                            <th>{{#str}}last_activity, block_dashboard_data_visualization{{/str}}</th>
+                            <th>{{#str}}status, block_dashboard_data_visualization{{/str}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#courserows}}
+                        <tr>
+                            <td class="ddv-course-name">{{name}}</td>
+                            <td>
+                                <div class="ddv-progress-cell">
+                                    <div class="ddv-pbar"><div class="ddv-pbar-fill" style="width:{{progress}}%;"></div></div>
+                                    <span>{{progress}}%</span>
+                                </div>
+                            </td>
+                            <td>{{grade}}</td>
+                            <td>{{lastaccess}}</td>
+                            <td><span class="badge badge-{{statuscls}} bg-{{statuscls}}">{{status}}</span></td>
+                        </tr>
+                        {{/courserows}}
+                    </tbody>
+                </table>
+            </div>
+            {{/has_courses}}
+            {{^has_courses}}
+            <p class="text-muted">{{#str}}no_data, block_dashboard_data_visualization{{/str}}</p>
+            {{/has_courses}}
+        </div>
+        {{/show_course_progress}}
+    </div>
+</div>
