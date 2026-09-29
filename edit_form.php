@@ -1,61 +1,115 @@
 <?php
 defined('MOODLE_INTERNAL') || die();
 
+use block_dashboard_data_visualization\layout;
+
 class block_dashboard_data_visualization_edit_form extends block_edit_form {
 
+    /** @var string Component name used for every string lookup in this form. */
+    const PLUGIN = 'block_dashboard_data_visualization';
+
     protected function specific_definition($mform) {
-        $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
+        // --- KPI CARDS ---
+        $mform->addElement('header', 'ddvkpiheader', get_string('kpi_cards', self::PLUGIN));
+        $mform->setExpanded('ddvkpiheader', true);
 
-        // Toggle for Engagement Over Time
-        $mform->addElement('advcheckbox', 'config_show_engagement_over_time', get_string('show_engagement_over_time', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_engagement_over_time', 1);
+        foreach (layout::kpis() as $key => $order) {
+            $this->add_section_controls($mform, $key, $order, null);
+        }
 
-        // Toggle for Completed by Subject
-        $mform->addElement('advcheckbox', 'config_show_completed_by_subject', get_string('show_completed_by_subject', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_completed_by_subject', 1);
+        // --- CHARTS & PANELS ---
+        $mform->addElement('header', 'ddvpanelheader', get_string('panel_cards', self::PLUGIN));
+        $mform->setExpanded('ddvpanelheader', true);
+        $mform->addElement('static', 'ddvpanelhelp', '', get_string('layout_help', self::PLUGIN));
 
-        // Toggle for In Progress by Subject
-        $mform->addElement('advcheckbox', 'config_show_in_progress_by_subject', get_string('show_in_progress_by_subject', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_in_progress_by_subject', 1);
+        foreach (layout::panels() as $key => $def) {
+            $this->add_section_controls($mform, $key, $def['order'], $def['width']);
+        }
 
-        // Toggle for Actions Breakdown
-        $mform->addElement('advcheckbox', 'config_show_actions_breakdown', get_string('show_actions_breakdown', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_actions_breakdown', 1);
+        // --- COLORS ---
+        $mform->addElement('header', 'ddvcolourheader', get_string('colors', self::PLUGIN));
+        $mform->setExpanded('ddvcolourheader', true);
 
-        // Toggle for Study Consistency
-        $mform->addElement('advcheckbox', 'config_show_study_consistency', get_string('show_study_consistency', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_study_consistency', 1);
+        $mform->addElement('text', 'config_chart_color', get_string('chart_color', self::PLUGIN));
+        $mform->setType('config_chart_color', PARAM_TEXT);
+        $mform->setDefault('config_chart_color', layout::DEFAULT_CHART_COLOUR);
+        // MoodleQuickForm_text forces type="text" from its constructor, so any type passed in the
+        // attributes array is discarded. Switching it afterwards is what gives a native picker.
+        $mform->updateElementAttr('config_chart_color', [
+            'type' => 'color',
+            'class' => 'ddv-colour-input',
+        ]);
+    }
 
-        // Toggle for Top Subjects by Sessions
-        $mform->addElement('advcheckbox', 'config_show_top_subjects', get_string('show_top_subjects', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_top_subjects', 1);
+    /**
+     * Add the "visible / order / width" controls for one dashboard section.
+     *
+     * The elements are grouped so the form stays readable, but the group does not append its own
+     * name, which keeps the submitted keys flat (config_show_x, config_order_x, config_width_x) so
+     * blocklib still strips the config_ prefix and stores them as instance config.
+     *
+     * @param MoodleQuickForm $mform
+     * @param string $key section key, e.g. 'kpi_streak' or 'top_subjects'
+     * @param int $defaultorder
+     * @param int|null $defaultwidth null for KPI cards, which are not individually sized
+     */
+    private function add_section_controls($mform, string $key, int $defaultorder, ?int $defaultwidth) {
+        $label = get_string('show_' . $key, self::PLUGIN);
 
-        // Toggle for Performance by Subject
-        $mform->addElement('advcheckbox', 'config_show_performance_by_subject', get_string('show_performance_by_subject', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_performance_by_subject', 1);
+        $group = [];
 
-        // --- NEW TOGGLES ---
-        // KPIs
-        $mform->addElement('advcheckbox', 'config_show_kpi_engagement', get_string('show_kpi_engagement', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_kpi_engagement', 1);
+        $group[] = $mform->createElement(
+            'advcheckbox',
+            'config_show_' . $key,
+            '',
+            get_string('section_visible', self::PLUGIN),
+            ['aria-label' => get_string('visible_for', self::PLUGIN, $label)]
+        );
 
-        $mform->addElement('advcheckbox', 'config_show_kpi_grade', get_string('show_kpi_grade', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_kpi_grade', 1);
+        $orderel = $mform->createElement('text', 'config_order_' . $key, '', [
+            'size' => 3,
+            'title' => get_string('section_order', self::PLUGIN),
+            'aria-label' => get_string('order_for', self::PLUGIN, $label),
+        ]);
+        // Same constructor caveat as the colour field above.
+        $orderel->updateAttributes([
+            'type' => 'number',
+            'min' => 0,
+            'step' => 1,
+            'class' => 'ddv-order-input',
+        ]);
+        $group[] = $orderel;
 
-        $mform->addElement('advcheckbox', 'config_show_kpi_completed', get_string('show_kpi_completed', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_kpi_completed', 1);
+        if ($defaultwidth !== null) {
+            $group[] = $mform->createElement(
+                'select',
+                'config_width_' . $key,
+                '',
+                layout::width_options(),
+                ['aria-label' => get_string('width_for', self::PLUGIN, $label)]
+            );
+        }
 
-        $mform->addElement('advcheckbox', 'config_show_kpi_sessions', get_string('show_kpi_sessions', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_kpi_sessions', 1);
+        $mform->addGroup($group, 'ddvgrp_' . $key, $label, ' ', false);
 
-        $mform->addElement('advcheckbox', 'config_show_kpi_streak', get_string('show_kpi_streak', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_kpi_streak', 1);
+        $mform->setDefault('config_show_' . $key, 1);
+        $mform->setDefault('config_order_' . $key, $defaultorder);
+        $mform->setType('config_order_' . $key, PARAM_INT);
 
-        // Bottom Row
-        $mform->addElement('advcheckbox', 'config_show_strengths', get_string('show_strengths', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_strengths', 1);
+        if ($defaultwidth !== null) {
+            $mform->setDefault('config_width_' . $key, $defaultwidth);
+            $mform->setType('config_width_' . $key, PARAM_INT);
+        }
+    }
 
-        $mform->addElement('advcheckbox', 'config_show_course_progress', get_string('show_course_progress', 'block_dashboard_data_visualization'));
-        $mform->setDefault('config_show_course_progress', 1);
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+
+        $colour = isset($data['config_chart_color']) ? trim((string)$data['config_chart_color']) : '';
+        if ($colour !== '' && !preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $colour)) {
+            $errors['config_chart_color'] = get_string('invalid_colour', self::PLUGIN);
+        }
+
+        return $errors;
     }
 }

@@ -22,6 +22,9 @@
     color: #2d3748;
     width: 100%;
     box-sizing: border-box;
+    /* Lets the panel grid respond to the block region width, not the viewport. */
+    container-type: inline-size;
+    container-name: ddvdash;
 }
 
 /* ── Welcome Header ─────────────────────────────────────── */
@@ -46,9 +49,11 @@
 }
 
 /* ── KPI Cards ──────────────────────────────────────────── */
+/* auto-fit rather than a fixed 5 columns, so hiding or reordering KPI cards
+   never leaves an empty column behind. */
 .ddv-kpi-row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
 }
@@ -110,6 +115,7 @@
     font-size: .55em;
     color: #a0aec0;
     font-weight: 500;
+    margin-left: .15em;
 }
 
 .ddv-kpi-trend {
@@ -146,6 +152,10 @@
     border: 1px solid #edf2f7;
     min-width: 0;
     overflow: hidden;
+    /* Cards are stretched to the height of the tallest card on their row, so the
+       body is a column that hands the spare height to the content area below. */
+    display: flex;
+    flex-direction: column;
 }
 
 .ddv-card-title {
@@ -166,6 +176,13 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    /* Absorb whatever height the stretched card has left over, and sit in the
+       middle of it rather than clinging to the top. */
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .ddv-chart-wrap .chart-area {
@@ -185,58 +202,133 @@
     max-width: 100% !important;
     height: auto !important;
     max-height: 250px !important;
+    /* A canvas is inline by default, so it sits on the text baseline and leaves a
+       few pixels of descender space below it inside .chart-image. That padding
+       would push the doughnut's centred total off the ring. */
+    display: block;
 }
 
-/* ── Charts Row 1: 4-column grid ────────────────────────── */
-.ddv-charts-row-1 {
+/* ── Panel grid ─────────────────────────────────────────────
+   One 12-column grid holds every chart / panel card. Order comes from the block
+   configuration (the template emits the cards already sorted) and each card picks
+   its own span, so panels can be freely reordered and resized. */
+.ddv-panels {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 20px;
+    /* Every card on a row is stretched to the tallest one, so a short panel no
+       longer leaves a gap of page background underneath it. */
+    align-items: stretch;
 }
 
-/* ── Charts Row 2: 2 columns ────────────────────────────── */
-.ddv-charts-row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
+.ddv-span-3 {
+    grid-column: span 3;
 }
 
-/* ── Bottom Row: 3 columns ──────────────────────────────── */
-.ddv-charts-row-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr;
-    gap: 12px;
-    margin-bottom: 20px;
+.ddv-span-4 {
+    grid-column: span 4;
 }
 
-/* ── Doughnut center overlay ────────────────────────────── */
+.ddv-span-6 {
+    grid-column: span 6;
+}
+
+.ddv-span-8 {
+    grid-column: span 8;
+}
+
+.ddv-span-12 {
+    grid-column: span 12;
+}
+
+/* ── Doughnut center overlay ────────────────────────────────
+   The overlay and the chart share one grid cell, so the label is centred on the
+   canvas box itself instead of being nudged with a magic translate offset.
+   Chart.js' own legend is turned off in PHP, which keeps the ring vertically
+   centred inside that box. */
+.ddv-card-actions-breakdown {
+    container-type: inline-size;
+    container-name: ddvactions;
+}
+
 .ddv-doughnut-wrap {
-    position: relative;
+    display: grid;
+    container-type: inline-size;
+    container-name: ddvdoughnut;
+    /* Centre the single grid row instead of stretching it: the overlay is centred
+       against the row, so a stretched row would push the total off the ring. */
+    align-content: center;
+}
+
+.ddv-doughnut-wrap > * {
+    grid-area: 1 / 1 / 2 / 2;
+    min-width: 0;
 }
 
 .ddv-doughnut-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -60%);
+    align-self: center;
+    justify-self: center;
     text-align: center;
+    line-height: 1.15;
     pointer-events: none;
     z-index: 2;
+    /* Stay inside the hole of the ring. */
+    max-width: 42cqw;
+    overflow: hidden;
 }
 
 .ddv-doughnut-value {
-    font-size: 1.4rem;
+    font-size: clamp(.7rem, 9cqw, 1.4rem);
     font-weight: 800;
     display: block;
     color: #1a202c;
+    white-space: nowrap;
 }
 
 .ddv-doughnut-label {
-    font-size: .65rem;
+    font-size: clamp(.45rem, 3.4cqw, .65rem);
     color: #a0aec0;
     display: block;
+}
+
+/* Fallback total, shown below the chart when the card is too narrow for the
+   overlay to fit inside the ring. */
+.ddv-doughnut-total {
+    display: none;
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1.15;
+}
+
+.ddv-doughnut-total-value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a202c;
+}
+
+.ddv-doughnut-total-label {
+    display: block;
+    font-size: .65rem;
+    color: #a0aec0;
+}
+
+/* Drop the caption first, then move the whole total out of the ring. */
+@container ddvdoughnut (max-width: 150px) {
+    .ddv-doughnut-label {
+        display: none;
+    }
+}
+
+@container ddvactions (max-width: 170px) {
+    .ddv-doughnut-center {
+        display: none;
+    }
+
+    .ddv-doughnut-total {
+        display: block;
+    }
 }
 
 /* ── Legend ──────────────────────────────────────────────── */
@@ -273,12 +365,14 @@
     padding: 3px 8px;
     border-radius: 20px;
     margin-top: 8px;
+    align-self: flex-start;
 }
 
 /* ── Strengths & Weaknesses ─────────────────────────────── */
 .ddv-strengths-cols {
     display: flex;
     gap: 16px;
+    flex: 1 1 auto;
 }
 
 .ddv-strength-col {
@@ -360,6 +454,7 @@
 /* ── Course Progress Table ──────────────────────────────── */
 .ddv-table-wrap {
     overflow-x: auto;
+    flex: 1 1 auto;
 }
 
 .ddv-table {
@@ -425,38 +520,23 @@
     font-weight: 600;
 }
 
-/* ── Responsive ─────────────────────────────────────────── */
+/* ── Responsive ─────────────────────────────────────────────
+   Viewport queries first as a fallback, then container queries so the grid reacts
+   to the width of the block region rather than the width of the window. */
 @media (max-width: 1200px) {
-    .ddv-charts-row-1 {
-        grid-template-columns: 1fr 1fr;
+    .ddv-span-3,
+    .ddv-span-4 {
+        grid-column: span 6;
     }
 
-    .ddv-charts-row-3 {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 992px) {
-    .ddv-kpi-row {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .ddv-charts-row-2 {
-        grid-template-columns: 1fr;
+    .ddv-span-8 {
+        grid-column: span 12;
     }
 }
 
 @media (max-width: 768px) {
-    .ddv-kpi-row {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .ddv-charts-row-1 {
-        grid-template-columns: 1fr;
-    }
-
-    .ddv-charts-row-3 {
-        grid-template-columns: 1fr;
+    .ddv-panels > .ddv-card {
+        grid-column: span 12;
     }
 
     .ddv-strengths-cols {
@@ -464,13 +544,43 @@
     }
 }
 
-@media (max-width: 480px) {
-    .ddv-kpi-row {
-        grid-template-columns: 1fr;
+@container ddvdash (max-width: 1100px) {
+    .ddv-span-3,
+    .ddv-span-4 {
+        grid-column: span 6;
+    }
+
+    .ddv-span-8 {
+        grid-column: span 12;
+    }
+}
+
+@container ddvdash (max-width: 700px) {
+    .ddv-panels > .ddv-card {
+        grid-column: span 12;
+    }
+
+    .ddv-strengths-cols {
+        flex-direction: column;
     }
 }
 
 /* ── Hide default Moodle chart table toggles (cleaner look) */
 .ddv-dashboard .chart-table {
     display: none;
+}
+
+/* ── Block configuration form ───────────────────────────── */
+input.ddv-colour-input[type="color"] {
+    width: 56px;
+    min-width: 56px;
+    height: 38px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+input.ddv-order-input[type="number"] {
+    width: 5em;
+    min-width: 5em;
+    margin: 0 .5rem;
 }

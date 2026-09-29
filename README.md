@@ -26,7 +26,7 @@ This block aggregates data directly from Moodle's core tables (logs, grades, enr
 *   **Insights & Tables:**
     *   **Strengths & Areas to Improve:** Automatically highlights the user's top 3 and bottom 3 performing subjects.
     *   **Course Progress Table:** A detailed list of all enrolled courses with progress bars, current grades, last activity timestamps, and completion status badges.
-*   **Highly Configurable:** Every single widget, chart, and KPI can be toggled on or off via the block's settings. Admins can also pick a custom accent color for the line and bar charts using a native color picker.
+*   **Highly Configurable:** Every single widget, chart, and KPI can be toggled on or off, reordered, and (for the chart panels) resized from the block's settings. Admins can also pick a custom accent color for the line and bar charts using a native color picker.
 
 ## ⚙️ Requirements
 
@@ -62,10 +62,21 @@ Once installed, the block is designed to be placed on the user Dashboard (`/my/`
 3. Click **Add a block** and select **Dashboard Data Visualization**.
 4. Click the gear icon on the newly added block and select **Configure Dashboard Data Visualization block**.
 5. From the settings form, you can:
-   *   Toggle the visibility of any individual KPI card.
-   *   Toggle the visibility of any chart or table.
+   *   **KPI cards** — toggle the visibility of any individual KPI card and set its **order**.
+   *   **Charts & panels** — toggle the visibility of any chart or table, set its **order**, and choose its **width** (quarter, third, half, two-thirds, or full width of the 12-column grid).
    *   **Change the Chart Color:** Use the color picker to select a custom hex color for the bar and line charts to match your theme.
 6. Save changes.
+
+### Ordering and widths
+
+Sections are rendered from the lowest order number to the highest. Defaults are spaced in tens
+(10, 20, 30, …) so a section can be moved between two others without renumbering everything —
+give it any value in between. Sections that end up with the same order number keep their default
+relative position.
+
+Panel widths are expressed in twelfths of the block's width, so a row "adds up" when the widths of
+the panels on it total 12 (for example half + quarter + quarter). Panels that do not fit simply wrap
+onto the next row, and the grid collapses to fewer columns automatically in narrow block regions.
 
 ## 🛠️ Architecture
 

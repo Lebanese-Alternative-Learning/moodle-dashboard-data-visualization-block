@@ -79,3 +79,23 @@ $string['show_kpi_streak'] = 'Show Learning Streak (KPI)';
 
 $string['show_strengths'] = 'Show Strengths & Areas to Improve';
 $string['show_course_progress'] = 'Show Course Progress Table';
+
+// Layout & order.
+$string['kpi_cards'] = 'KPI cards';
+$string['panel_cards'] = 'Charts & panels';
+$string['layout_help'] = 'Sections are shown from the lowest order number to the highest. The width is how much of the 12-column grid each panel takes up.';
+$string['section_visible'] = 'Visible';
+$string['section_order'] = 'Order';
+$string['visible_for'] = 'Show {$a}';
+$string['order_for'] = 'Order for {$a}';
+$string['width_for'] = 'Width for {$a}';
+$string['width_quarter'] = 'Quarter width';
+$string['width_third'] = 'One third width';
+$string['width_half'] = 'Half width';
+$string['width_twothirds'] = 'Two thirds width';
+$string['width_full'] = 'Full width';
+
+// Colors.
+$string['colors'] = 'Colors';
+$string['chart_color'] = 'Chart Color';
+$string['invalid_colour'] = 'Enter a colour as a hex value, for example #4e73df.';
