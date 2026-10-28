@@ -143,7 +143,7 @@ class main implements renderable, templatable {
                 'title' => get_string('completed_by_subject', self::PLUGIN),
                 'sub' => get_string('completed_by_subject_sub', self::PLUGIN),
                 'chart' => self::build_horizontal_bar(
-                    data_provider::get_completed_by_subject($userid), 'cnt', 'Courses', $output, $chartcolor
+                    data_provider::get_completed_by_subject($userid), 'cnt', get_string('series_courses', self::PLUGIN), $output, $chartcolor
                 ),
             ];
         }
@@ -154,7 +154,7 @@ class main implements renderable, templatable {
                 'title' => get_string('in_progress_by_subject', self::PLUGIN),
                 'sub' => get_string('in_progress_by_subject_sub', self::PLUGIN),
                 'chart' => self::build_horizontal_bar(
-                    data_provider::get_in_progress_by_subject($userid), 'cnt', 'Courses', $output, $chartcolor
+                    data_provider::get_in_progress_by_subject($userid), 'cnt', get_string('series_courses', self::PLUGIN), $output, $chartcolor
                 ),
             ];
         }
@@ -225,7 +225,7 @@ class main implements renderable, templatable {
                 'title' => get_string('top_subjects', self::PLUGIN),
                 'sub' => get_string('top_subjects_sub', self::PLUGIN),
                 'chart' => self::build_horizontal_bar(
-                    data_provider::get_top_subjects_by_sessions($userid), 'sessions', 'Sessions', $output, $chartcolor
+                    data_provider::get_top_subjects_by_sessions($userid), 'sessions', get_string('series_sessions', self::PLUGIN), $output, $chartcolor
                 ),
             ];
         }

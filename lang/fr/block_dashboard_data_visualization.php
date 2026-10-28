@@ -102,3 +102,14 @@ $string['width_full'] = 'Toute la largeur';
 $string['colors'] = 'Couleurs';
 $string['chart_color'] = 'Couleur du graphique';
 $string['invalid_colour'] = 'Saisis une couleur en valeur hexadécimale, par exemple #4e73df.';
+
+// Chart series labels and relative times.
+$string['series_courses'] = 'Cours';
+$string['series_sessions'] = 'Séances';
+$string['time_just_now'] = 'À l\'instant';
+$string['time_min_ago'] = 'il y a {$a} min';
+$string['time_hour_ago'] = 'il y a {$a} heure';
+$string['time_hours_ago'] = 'il y a {$a} heures';
+$string['time_day_ago'] = 'il y a {$a} jour';
+$string['time_days_ago'] = 'il y a {$a} jours';
+// CHECK: French time-ago wording follows theme_tabshoura3 style; not native-reviewed.

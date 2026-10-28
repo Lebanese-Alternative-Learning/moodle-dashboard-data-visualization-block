@@ -228,7 +228,10 @@ class data_provider {
         $rs->close();
 
         return [
-            'labels' => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            'labels' => array_map(
+                fn($d) => get_string($d, 'calendar'),
+                ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+            ),
             'values' => [$days[1], $days[2], $days[3], $days[4], $days[5], $days[6], $days[7]],
         ];
     }
@@ -366,16 +369,16 @@ class data_provider {
     private static function time_ago(int $timestamp): string {
         $diff = time() - $timestamp;
         if ($diff < 60) {
-            return 'Just now';
+            return get_string('time_just_now', 'block_dashboard_data_visualization');
         } else if ($diff < 3600) {
             $m = floor($diff / 60);
-            return $m . ' min ago';
+            return get_string('time_min_ago', 'block_dashboard_data_visualization', $m);
         } else if ($diff < 86400) {
             $h = floor($diff / 3600);
-            return $h . ' hour' . ($h > 1 ? 's' : '') . ' ago';
+            return get_string($h > 1 ? 'time_hours_ago' : 'time_hour_ago', 'block_dashboard_data_visualization', $h);
         } else {
             $d = floor($diff / 86400);
-            return $d . ' day' . ($d > 1 ? 's' : '') . ' ago';
+            return get_string($d > 1 ? 'time_days_ago' : 'time_day_ago', 'block_dashboard_data_visualization', $d);
         }
     }
 }

@@ -102,3 +102,14 @@ $string['width_full'] = 'العرض الكامل';
 $string['colors'] = 'الألوان';
 $string['chart_color'] = 'لون الرسم';
 $string['invalid_colour'] = 'أدخل لونًا بقيمة سداسية عشرية، مثل ‎#4e73df.';
+
+// Chart series labels and relative times.
+$string['series_courses'] = 'دروس';
+$string['series_sessions'] = 'جلسات';
+$string['time_just_now'] = 'الآن';
+$string['time_min_ago'] = 'منذ {$a} د';
+$string['time_hour_ago'] = 'منذ {$a} ساعة';
+$string['time_hours_ago'] = 'منذ {$a} ساعات';
+$string['time_day_ago'] = 'منذ {$a} يوم';
+$string['time_days_ago'] = 'منذ {$a} أيام';
+// CHECK: Arabic time-ago wording (abbreviated minute, singular/plural forms) not native-reviewed.

@@ -99,3 +99,13 @@ $string['width_full'] = 'Full width';
 $string['colors'] = 'Colors';
 $string['chart_color'] = 'Chart Color';
 $string['invalid_colour'] = 'Enter a colour as a hex value, for example #4e73df.';
+
+// Chart series labels and relative times.
+$string['series_courses'] = 'Courses';
+$string['series_sessions'] = 'Sessions';
+$string['time_just_now'] = 'Just now';
+$string['time_min_ago'] = '{$a} min ago';
+$string['time_hour_ago'] = '{$a} hour ago';
+$string['time_hours_ago'] = '{$a} hours ago';
+$string['time_day_ago'] = '{$a} day ago';
+$string['time_days_ago'] = '{$a} days ago';
