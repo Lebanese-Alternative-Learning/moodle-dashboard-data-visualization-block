@@ -110,6 +110,10 @@ $string['time_just_now'] = 'À l\'instant';
 $string['time_min_ago'] = 'il y a {$a} min';
 $string['time_hour_ago'] = 'il y a {$a} heure';
 $string['time_hours_ago'] = 'il y a {$a} heures';
+$string['time_hours_ago_two'] = 'il y a {$a} heures';
+$string['time_hours_ago_many'] = 'il y a {$a} heures';
 $string['time_day_ago'] = 'il y a {$a} jour';
 $string['time_days_ago'] = 'il y a {$a} jours';
+$string['time_days_ago_two'] = 'il y a {$a} jours';
+$string['time_days_ago_many'] = 'il y a {$a} jours';
 // CHECK: French time-ago wording follows theme_tabshoura3 style; not native-reviewed.

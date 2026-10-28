@@ -122,7 +122,7 @@ class data_provider {
         $values = [];
         for ($i = 5; $i >= 0; $i--) {
             $month = new \DateTime("first day of -$i months");
-            $labels[] = $month->format('M');
+            $labels[] = userdate($month->getTimestamp(), '%b');
             $start = (int)$month->format('U');
             $end = (new \DateTime("last day of -$i months"))->setTime(23, 59, 59);
             $endts = (int)$end->format('U');
@@ -366,6 +366,24 @@ class data_provider {
         return $rows;
     }
 
+    /**
+     * Lang key for an hour/day count: 1 = singular, 2 = _two, 3-10 = plural, 11+ = _many.
+     * ponytail: buckets ignore CLDR %100 refinements (e.g. 102 days), upgrade only if it matters.
+     *
+     * @param string $unit 'hour' or 'day'
+     * @param int|float $n count, at least 1
+     * @return string
+     */
+    public static function time_plural_key(string $unit, $n): string {
+        if ($n < 2) {
+            return "time_{$unit}_ago";
+        }
+        if ($n < 3) {
+            return "time_{$unit}s_ago_two";
+        }
+        return $n < 11 ? "time_{$unit}s_ago" : "time_{$unit}s_ago_many";
+    }
+
     private static function time_ago(int $timestamp): string {
         $diff = time() - $timestamp;
         if ($diff < 60) {
@@ -375,10 +393,10 @@ class data_provider {
             return get_string('time_min_ago', 'block_dashboard_data_visualization', $m);
         } else if ($diff < 86400) {
             $h = floor($diff / 3600);
-            return get_string($h > 1 ? 'time_hours_ago' : 'time_hour_ago', 'block_dashboard_data_visualization', $h);
+            return get_string(self::time_plural_key('hour', $h), 'block_dashboard_data_visualization', $h);
         } else {
             $d = floor($diff / 86400);
-            return get_string($d > 1 ? 'time_days_ago' : 'time_day_ago', 'block_dashboard_data_visualization', $d);
+            return get_string(self::time_plural_key('day', $d), 'block_dashboard_data_visualization', $d);
         }
     }
 }

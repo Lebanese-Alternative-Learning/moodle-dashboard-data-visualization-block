@@ -110,6 +110,10 @@ $string['time_just_now'] = 'الآن';
 $string['time_min_ago'] = 'منذ {$a} د';
 $string['time_hour_ago'] = 'منذ {$a} ساعة';
 $string['time_hours_ago'] = 'منذ {$a} ساعات';
+$string['time_hours_ago_two'] = 'منذ ساعتين';
+$string['time_hours_ago_many'] = 'منذ {$a} ساعة';
 $string['time_day_ago'] = 'منذ {$a} يوم';
 $string['time_days_ago'] = 'منذ {$a} أيام';
+$string['time_days_ago_two'] = 'منذ يومين';
+$string['time_days_ago_many'] = 'منذ {$a} يومًا';
 // CHECK: Arabic time-ago wording (abbreviated minute, singular/plural forms) not native-reviewed.
