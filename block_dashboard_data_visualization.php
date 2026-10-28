@@ -7,6 +7,10 @@ class block_dashboard_data_visualization extends block_base {
         $this->title = get_string('pluginname', 'block_dashboard_data_visualization');
     }
 
+    public function specialization() {
+        $this->page->requires->css('/blocks/dashboard_data_visualization/container.css');
+    }
+
     public function get_content() {
         if ($this->content !== null) {
             return $this->content;

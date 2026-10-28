@@ -314,23 +314,6 @@
     color: #a0aec0;
 }
 
-/* Drop the caption first, then move the whole total out of the ring. */
-@container ddvdoughnut (max-width: 150px) {
-    .ddv-doughnut-label {
-        display: none;
-    }
-}
-
-@container ddvactions (max-width: 170px) {
-    .ddv-doughnut-center {
-        display: none;
-    }
-
-    .ddv-doughnut-total {
-        display: block;
-    }
-}
-
 /* ── Legend ──────────────────────────────────────────────── */
 .ddv-legend {
     display: flex;
@@ -535,27 +518,6 @@
 }
 
 @media (max-width: 768px) {
-    .ddv-panels > .ddv-card {
-        grid-column: span 12;
-    }
-
-    .ddv-strengths-cols {
-        flex-direction: column;
-    }
-}
-
-@container ddvdash (max-width: 1100px) {
-    .ddv-span-3,
-    .ddv-span-4 {
-        grid-column: span 6;
-    }
-
-    .ddv-span-8 {
-        grid-column: span 12;
-    }
-}
-
-@container ddvdash (max-width: 700px) {
     .ddv-panels > .ddv-card {
         grid-column: span 12;
     }

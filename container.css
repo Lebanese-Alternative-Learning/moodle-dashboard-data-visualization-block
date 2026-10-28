@@ -1,0 +1,43 @@
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD DATA VISUALIZATION BLOCK — container.css
+   Separate from styles.css: Moodle's RTL build parses styles.css with a CSS
+   parser that drops @container rules; a sheet loaded on its own is not parsed.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Drop the caption first, then move the whole total out of the ring. */
+@container ddvdoughnut (max-width: 150px) {
+    .ddv-doughnut-label {
+        display: none;
+    }
+}
+
+@container ddvactions (max-width: 170px) {
+    .ddv-doughnut-center {
+        display: none;
+    }
+
+    .ddv-doughnut-total {
+        display: block;
+    }
+}
+
+@container ddvdash (max-width: 1100px) {
+    .ddv-span-3,
+    .ddv-span-4 {
+        grid-column: span 6;
+    }
+
+    .ddv-span-8 {
+        grid-column: span 12;
+    }
+}
+
+@container ddvdash (max-width: 700px) {
+    .ddv-panels > .ddv-card {
+        grid-column: span 12;
+    }
+
+    .ddv-strengths-cols {
+        flex-direction: column;
+    }
+}
